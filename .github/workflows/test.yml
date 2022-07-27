@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: true
 
-    name: Simulate solutions
+    name: Reproduce issue on latest nightly
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -29,13 +29,35 @@ jobs:
       - name: Forge version
         run:  forge --version
 
-      - name: Run script without --slow (will fail)
+      - name: Run script without --slow (should succeed)
         run:  forge script script/BlockHashIssueScript.sol:BlockHashScript -vvvv --fork-url=$FORK_URL --private-key=$PRIVATE_KEY
         env:
           FORK_URL: ${{ secrets.FORK_URL }}
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY}}
 
       - name: Run script with --slow (will fail)
+        run:  forge script script/BlockHashIssueScript.sol:BlockHashScript -vvvv --fork-url=$FORK_URL --private-key=$PRIVATE_KEY --slow
+        env:
+          FORK_URL: ${{ secrets.FORK_URL }}
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY}}
+
+
+    name: Show absence of issue at given nightly
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: nightly-64fe4acc97e6d76551cea7598c201f05ecd65639
+
+      - name: Forge version
+        run:  forge --version
+
+      - name: Run script with --slow (should succeed)
         run:  forge script script/BlockHashIssueScript.sol:BlockHashScript -vvvv --fork-url=$FORK_URL --private-key=$PRIVATE_KEY --slow
         env:
           FORK_URL: ${{ secrets.FORK_URL }}
