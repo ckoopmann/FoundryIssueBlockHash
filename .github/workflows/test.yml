@@ -33,13 +33,13 @@ jobs:
         run:  ls script
 
       - name: Run script without --slow (should succeed)
-        run:  forge script script/BlockHashIssueScript.sol:BlockHashScript -vvvv --fork-url=$FORK_URL --private-key=$PRIVATE_KEY
+        run:  forge script ./script/BlockHashIssueScript.sol:BlockHashScript -vvvv --fork-url=$FORK_URL --private-key=$PRIVATE_KEY
         env:
           FORK_URL: ${{ secrets.FORK_URL }}
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY}}
 
       - name: Run script with --slow (will fail)
-        run:  forge script script/BlockHashIssueScript.sol:BlockHashScript -vvvv --fork-url=$FORK_URL --private-key=$PRIVATE_KEY --slow
+        run:  forge script ./script/BlockHashIssueScript.sol:BlockHashScript -vvvv --fork-url=$FORK_URL --private-key=$PRIVATE_KEY --slow
         env:
           FORK_URL: ${{ secrets.FORK_URL }}
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY}}
@@ -65,7 +65,7 @@ jobs:
         run:  forge --version
 
       - name: Run script with --slow (should succeed)
-        run:  forge script script/BlockHashIssueScript.sol:BlockHashScript -vvvv --fork-url=$FORK_URL --private-key=$PRIVATE_KEY --slow
+        run:  forge script ./script/BlockHashIssueScript.sol:BlockHashScript -vvvv --fork-url=$FORK_URL --private-key=$PRIVATE_KEY --slow
         env:
           FORK_URL: ${{ secrets.FORK_URL }}
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY}}
