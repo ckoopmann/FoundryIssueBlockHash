@@ -42,6 +42,10 @@ jobs:
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY}}
 
 
+  last-nightly:
+    strategy:
+      fail-fast: true
+
     name: Show absence of issue at given nightly
     runs-on: ubuntu-latest
     steps:
